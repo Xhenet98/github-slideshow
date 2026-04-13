@@ -1,13 +1,522 @@
----
-layout: presentation
----
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>B Digital | Digitale Full-Service-Agentur</title>
+  <meta name="description" content="B Digital hilft Startups und kleinen Unternehmen, online messbar zu wachsen – mit Strategie, Entwicklung, Marketing, Branding und Performance-Optimierung." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #060b18;
+      --bg-soft: #0d1630;
+      --card: #111d3f;
+      --text: #edf2ff;
+      --text-muted: #b3bfd8;
+      --accent: #5eead4;
+      --accent-2: #38bdf8;
+      --border: rgba(179, 191, 216, 0.2);
+      --radius: 18px;
+      --container: 1160px;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    }
 
-{% for post in site.posts reversed %}
-	{% include slide.html %}
-	<div class="page-break"></div>
-{% endfor %}
-{% unless site.simple-slideshow %}
-{% if site.overview %}
-<section id="overview" class="step" {% for attr in site.overview-data %} data-{{attr[0]}}="{{attr[1]}}"{% endfor %}></section>
-{% endif %}
-{% endunless %}
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 85% 10%, rgba(56, 189, 248, 0.15), transparent 40%),
+        radial-gradient(circle at 15% 20%, rgba(94, 234, 212, 0.16), transparent 35%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(var(--container), 92%);
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 4.5rem 0;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+
+    h1, h2, h3 { line-height: 1.15; margin: 0 0 1rem; }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 4vw, 2.7rem);
+      letter-spacing: -0.02em;
+    }
+
+    p { margin: 0; color: var(--text-muted); }
+
+    .lead { font-size: clamp(1rem, 2.2vw, 1.25rem); max-width: 66ch; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #021827;
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary:hover { box-shadow: 0 14px 30px rgba(56, 189, 248, 0.35); }
+
+    .btn-ghost {
+      border-color: var(--border);
+      color: var(--text);
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-ghost:hover { border-color: rgba(94, 234, 212, 0.6); }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      background: rgba(6, 11, 24, 0.6);
+      border-bottom: 1px solid rgba(179, 191, 216, 0.08);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.85);
+    }
+
+    .nav-links {
+      display: none;
+      gap: 1rem;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      font-weight: 500;
+    }
+
+    .nav-links a { transition: color 200ms ease; }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding-top: 5.5rem;
+      padding-bottom: 5rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-actions {
+      margin-top: 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .panel {
+      background: linear-gradient(165deg, rgba(17, 29, 63, 0.95), rgba(13, 22, 48, 0.95));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .stats {
+      display: grid;
+      gap: 0.9rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stat {
+      padding: 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(179, 191, 216, 0.14);
+      background: rgba(6, 11, 24, 0.5);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .problem-grid,
+    .usp-grid,
+    .audience-grid,
+    .social-grid,
+    .footer-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .service-card,
+    .usp,
+    .audience,
+    .testimonial {
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(13, 22, 48, 0.7);
+      transition: transform 220ms ease, border-color 220ms ease;
+    }
+
+    .service-card:hover,
+    .usp:hover,
+    .audience:hover,
+    .testimonial:hover {
+      transform: translateY(-5px);
+      border-color: rgba(94, 234, 212, 0.55);
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 0.85rem;
+      background: linear-gradient(145deg, rgba(94, 234, 212, 0.22), rgba(56, 189, 248, 0.3));
+      font-size: 1.1rem;
+    }
+
+    .problem-card {
+      background: rgba(13, 22, 48, 0.68);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .problem-card ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      color: var(--text-muted);
+    }
+
+    .problem-card li + li { margin-top: 0.5rem; }
+
+    .cta {
+      text-align: center;
+      background: linear-gradient(170deg, rgba(94, 234, 212, 0.14), rgba(56, 189, 248, 0.14));
+      border: 1px solid rgba(94, 234, 212, 0.3);
+      border-radius: calc(var(--radius) + 4px);
+      padding: 2rem 1.2rem;
+    }
+
+    .cta p { margin: 0 auto 1.2rem; max-width: 60ch; }
+
+    footer {
+      border-top: 1px solid rgba(179, 191, 216, 0.12);
+      padding: 2rem 0;
+      margin-top: 2rem;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .socials {
+      display: flex;
+      gap: 0.65rem;
+      margin-top: 0.8rem;
+    }
+
+    .social {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      transition: color 200ms ease, border-color 200ms ease, transform 200ms ease;
+    }
+
+    .social:hover {
+      color: var(--accent);
+      border-color: rgba(94, 234, 212, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (min-width: 760px) {
+      .section { padding: 5.8rem 0; }
+      .hero-grid { grid-template-columns: 1.15fr 0.85fr; }
+      .grid.services { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .usp-grid,
+      .audience-grid,
+      .social-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .problem-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .footer-grid { grid-template-columns: 1.2fr 1fr auto; }
+      .nav-links { display: flex; }
+    }
+
+    @media (min-width: 1024px) {
+      .grid.services { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .social-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .usp-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .hero { padding-top: 7.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#top" class="brand"><span class="brand-dot"></span>B Digital</a>
+      <nav class="nav-links">
+        <a href="#leistungen">Leistungen</a>
+        <a href="#warum">Warum wir</a>
+        <a href="#zielgruppen">Zielgruppen</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      <a class="btn btn-ghost" href="#kontakt">Kostenlose Beratung</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Digitale Full-Service-Agentur</span>
+          <h1>Wir machen aus Ihrer Idee planbares digitales Wachstum.</h1>
+          <p class="lead">B Digital begleitet Startups und kleine Unternehmen von der Strategie über die Umsetzung bis zur Skalierung – mit klaren Prozessen, messbaren Ergebnissen und einem Team, das wirklich mitdenkt.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#kontakt">Jetzt kostenlos beraten lassen</a>
+            <a class="btn btn-ghost" href="#leistungen">Leistungen ansehen</a>
+          </div>
+        </div>
+        <aside class="panel reveal" aria-label="Erfolgskennzahlen">
+          <div class="stats">
+            <div class="stat"><strong>+140%</strong><span>mehr qualifizierte Leads</span></div>
+            <div class="stat"><strong>3x</strong><span>schnellere Time-to-Market</span></div>
+            <div class="stat"><strong>95%</strong><span>Kundenzufriedenheit</span></div>
+            <div class="stat"><strong>24/7</strong><span>transparente Performance-Reports</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container problem-grid">
+        <article class="problem-card reveal">
+          <span class="eyebrow">Das Problem</span>
+          <h2>Warum viele Unternehmen online nicht vorankommen</h2>
+          <ul>
+            <li>Unklare Positionierung und kein konsistenter digitaler Auftritt.</li>
+            <li>Einzelmaßnahmen ohne Strategie: Budget wird verbrannt, statt Wirkung zu erzeugen.</li>
+            <li>Fehlende Datenbasis: Entscheidungen werden aus dem Bauch heraus getroffen.</li>
+          </ul>
+        </article>
+        <article class="problem-card reveal">
+          <span class="eyebrow">Unsere Lösung</span>
+          <h2>Ein System, das aus Klicks echte Ergebnisse macht</h2>
+          <ul>
+            <li>Wir entwickeln eine klare Wachstumsstrategie mit realistischen Meilensteinen.</li>
+            <li>Wir setzen Design, Entwicklung und Marketing als Einheit um.</li>
+            <li>Wir optimieren kontinuierlich auf Leads, Umsatz und Effizienz.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="leistungen">
+      <div class="container">
+        <span class="eyebrow">Leistungen</span>
+        <h2>Alles, was Sie für nachhaltiges Online-Wachstum brauchen</h2>
+        <p class="lead" style="margin-bottom:1.5rem;">Fünf Leistungen, ein Ziel: Ihr Unternehmen digital sichtbar, stark und skalierbar machen.</p>
+        <div class="grid services">
+          <article class="service-card reveal">
+            <div class="icon">📈</div>
+            <h3>Strategie & Beratung</h3>
+            <p>Klare Positionierung, Zielgruppen-Fokus und ein Fahrplan, der Ihr Wachstum planbar macht.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="icon">💻</div>
+            <h3>Web & Software Development</h3>
+            <p>Conversion-starke Websites und individuelle Lösungen, die technisch sauber und schnell liefern.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="icon">🎯</div>
+            <h3>Digital Marketing</h3>
+            <p>Google-, Instagram- und LinkedIn-Ads plus Social Media, präzise auf Reichweite und Leads ausgerichtet.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="icon">✨</div>
+            <h3>Branding & Design</h3>
+            <p>Ein Markenauftritt, der Vertrauen schafft, wiedererkennbar ist und Ihre Zielgruppe emotional abholt.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="icon">⚡</div>
+            <h3>Performance-Optimierung</h3>
+            <p>Kontinuierliche Analyse und Optimierung für bessere Conversion Rates, geringere Kosten und mehr Umsatz.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="warum">
+      <div class="container">
+        <span class="eyebrow">Warum B Digital</span>
+        <h2>Ein Partner, der nicht nur umsetzt – sondern Verantwortung übernimmt</h2>
+        <div class="usp-grid" style="margin-top:1.4rem;">
+          <article class="usp reveal"><h3>All-in-One Ansatz</h3><p>Strategie, Entwicklung, Marketing und Design greifen nahtlos ineinander.</p></article>
+          <article class="usp reveal"><h3>Messbare Ergebnisse</h3><p>Wir arbeiten KPI-basiert und richten jede Maßnahme auf Ihren Geschäftserfolg aus.</p></article>
+          <article class="usp reveal"><h3>Erfahrenes Team</h3><p>Hands-on Expert:innen mit Erfahrung aus Startup- und KMU-Projekten.</p></article>
+          <article class="usp reveal"><h3>Schnelle Umsetzung</h3><p>Kurze Abstimmungswege, klare Prioritäten und schnelle Time-to-Value.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="zielgruppen">
+      <div class="container">
+        <span class="eyebrow">Zielgruppen</span>
+        <h2>Für Unternehmen, die digital wirklich vorankommen wollen</h2>
+        <div class="audience-grid" style="margin-top:1.4rem;">
+          <article class="audience reveal"><h3>Startups</h3><p>Markteintritt mit klarer Positionierung, professioneller Website und skalierbaren Kampagnen.</p></article>
+          <article class="audience reveal"><h3>Kleine & mittlere Unternehmen</h3><p>Mehr Sichtbarkeit, bessere Leads und ein digitaler Auftritt, der zum Unternehmen passt.</p></article>
+          <article class="audience reveal"><h3>Wachsende Unternehmen</h3><p>Systematische Skalierung über Performance-Marketing, Automatisierung und Datenanalyse.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <span class="eyebrow">Social Proof</span>
+        <h2>Vertrauen durch Ergebnisse</h2>
+        <div class="social-grid" style="margin-top:1.4rem;">
+          <article class="testimonial reveal"><p>„B Digital hat unsere Lead-Qualität in wenigen Monaten deutlich verbessert.“</p><strong>— Kundenzitat Platzhalter</strong></article>
+          <article class="testimonial reveal"><p>„Klare Kommunikation, schnelle Umsetzung und endlich messbare Marketing-Erfolge.“</p><strong>— Referenz Platzhalter</strong></article>
+          <article class="testimonial reveal"><p>„Von Branding bis Ads: ein Team, das unser Wachstum ganzheitlich begleitet.“</p><strong>— Kundenstimme Platzhalter</strong></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="kontakt">
+      <div class="container">
+        <div class="cta reveal">
+          <span class="eyebrow">Nächster Schritt</span>
+          <h2>Bereit für den nächsten digitalen Wachstumsschritt?</h2>
+          <p>Lassen Sie uns in einem unverbindlichen Erstgespräch herausfinden, wo Ihr größtes Potenzial liegt – und wie wir es gemeinsam in Ergebnisse verwandeln.</p>
+          <a class="btn btn-primary" href="mailto:kontakt@bdigital.de">Jetzt kostenlos beraten lassen</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <a href="#top" class="brand"><span class="brand-dot"></span>B Digital</a>
+        <p style="margin-top:0.75rem;">Digitale Full-Service-Agentur für Startups und KMU.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#leistungen">Leistungen</a>
+        <a href="#warum">Warum B Digital</a>
+        <a href="#zielgruppen">Zielgruppen</a>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+      </div>
+      <div>
+        <div class="socials" aria-label="Social Media">
+          <a class="social" href="#" aria-label="LinkedIn">in</a>
+          <a class="social" href="#" aria-label="Instagram">ig</a>
+          <a class="social" href="#" aria-label="Facebook">f</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
